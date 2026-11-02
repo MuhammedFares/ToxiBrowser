@@ -39,9 +39,9 @@ index 90e572f..acc3e55 100644
 +      !command_line->HasSwitch(switches::kDisableSmoothScrolling)) {
 +    command_line->AppendSwitch(switches::kDisableSmoothScrolling);
 +  }
-+  if (!command_line->HasSwitch(gfx::switches::kForcePrefersReducedMotion) &&
-+      !command_line->HasSwitch(gfx::switches::kForcePrefersNoReducedMotion)) {
-+    command_line->AppendSwitch(gfx::switches::kForcePrefersReducedMotion);
++  if (!command_line->HasSwitch(switches::kForcePrefersReducedMotion) &&
++      !command_line->HasSwitch(switches::kForcePrefersNoReducedMotion)) {
++    command_line->AppendSwitch(switches::kForcePrefersReducedMotion);
 +  }
 +}
 +

@@ -33,3 +33,4 @@ toxibrowser/toxi-reduce-back-forward-cache.patch
 toxibrowser/toxi-disable-spellcheck-and-cast.patch
 toxibrowser/toxi-pdf-external-default.patch
 toxibrowser/toxi-defaults-and-flags.patch
+toxibrowser/toxi-branding.patch
