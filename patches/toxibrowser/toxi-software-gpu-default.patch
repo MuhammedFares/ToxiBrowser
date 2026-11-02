@@ -1,0 +1,26 @@
+diff --git a/chrome/browser/gpu/gpu_mode_manager.cc b/chrome/browser/gpu/gpu_mode_manager.cc
+index bea459c..72f8e49 100644
+--- a/chrome/browser/gpu/gpu_mode_manager.cc
++++ b/chrome/browser/gpu/gpu_mode_manager.cc
+@@ -35,7 +35,7 @@ void SetPreviousGpuModePref(bool enabled) {
+ // static
+ void GpuModeManager::RegisterPrefs(PrefRegistrySimple* registry) {
+   registry->RegisterBooleanPref(
+-      prefs::kHardwareAccelerationModeEnabled, true);
++      prefs::kHardwareAccelerationModeEnabled, false);
+   registry->RegisterBooleanPref(
+       prefs::kHardwareAccelerationModePrevious, true);
+ }
+diff --git a/ui/gl/gl_features.cc b/ui/gl/gl_features.cc
+index 882ac85..985c560 100644
+--- a/ui/gl/gl_features.cc
++++ b/ui/gl/gl_features.cc
+@@ -330,7 +330,7 @@ bool IsSwiftShaderAllowed(const base::CommandLine* command_line) {
+ }
+ 
+ #if BUILDFLAG(IS_WIN)
+-BASE_FEATURE(kAllowD3D11WarpFallback, base::FEATURE_ENABLED_BY_DEFAULT);
++BASE_FEATURE(kAllowD3D11WarpFallback, base::FEATURE_DISABLED_BY_DEFAULT);
+ 
+ bool IsWARPAllowed(const base::CommandLine* command_line) {
+   if (command_line->HasSwitch(switches::kDisableD3D11Warp)) {

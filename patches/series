@@ -26,3 +26,10 @@ ungoogled-chromium/windows/windows-fix-python.patch
 ungoogled-chromium/windows/windows-fix-typescript-lib-dom.patch
 ungoogled-chromium/windows/windows-disable-private-verification-tokens.patch
 toxibrowser/disable-webrtc.patch
+toxibrowser/toxi-disable-spare-and-preload-renderers.patch
+toxibrowser/toxi-memory-saver-defaults.patch
+toxibrowser/toxi-software-gpu-default.patch
+toxibrowser/toxi-reduce-back-forward-cache.patch
+toxibrowser/toxi-disable-spellcheck-and-cast.patch
+toxibrowser/toxi-pdf-external-default.patch
+toxibrowser/toxi-defaults-and-flags.patch

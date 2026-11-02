@@ -1,0 +1,94 @@
+diff --git a/chrome/browser/about_flags.cc b/chrome/browser/about_flags.cc
+index 5e0d881..8715c06 100644
+--- a/chrome/browser/about_flags.cc
++++ b/chrome/browser/about_flags.cc
+@@ -5208,11 +5208,13 @@ constexpr char kEnterpriseIsolatedModeInternalName[] =
+ #include "chrome/browser/bromite_flag_choices.h"
+ #include "chrome/browser/ungoogled_platform_flag_choices.h"
+ #include "chrome/browser/existing_switch_flag_choices.h"
++#include "chrome/browser/toxi_flag_choices.h"
+ const FeatureEntry kFeatureEntries[] = {
+ #include "chrome/browser/ungoogled_flag_entries.h"
+ #include "chrome/browser/bromite_flag_entries.h"
+ #include "chrome/browser/ungoogled_platform_flag_entries.h"
+ #include "chrome/browser/existing_switch_flag_entries.h"
++#include "chrome/browser/toxi_flag_entries.h"
+ // Include generated flags for flag unexpiry; see //docs/flag_expiry.md and
+ // //tools/flags/generate_unexpire_flags.py.
+ #include "build/chromeos_buildflags.h"
+diff --git a/chrome/browser/metrics/chrome_feature_list_creator.cc b/chrome/browser/metrics/chrome_feature_list_creator.cc
+index 90e572f..acc3e55 100644
+--- a/chrome/browser/metrics/chrome_feature_list_creator.cc
++++ b/chrome/browser/metrics/chrome_feature_list_creator.cc
+@@ -40,6 +40,7 @@
+ #include "services/network/public/cpp/network_switches.h"
+ #include "services/network/public/cpp/shared_url_loader_factory.h"
+ #include "ui/base/resource/resource_bundle.h"
++#include "ui/gfx/switches.h"
+ 
+ #if BUILDFLAG(IS_WIN)
+ #include "chrome/installer/util/google_update_settings.h"
+@@ -60,9 +61,25 @@ ChromeFeatureListCreator* ChromeFeatureListCreator::GetInstance() {
+ 
+ ChromeFeatureListCreator::~ChromeFeatureListCreator() = default;
+ 
++namespace {
++
++void ApplyToxiDefaultSwitches(base::CommandLine* command_line) {
++  if (!command_line->HasSwitch(switches::kEnableSmoothScrolling) &&
++      !command_line->HasSwitch(switches::kDisableSmoothScrolling)) {
++    command_line->AppendSwitch(switches::kDisableSmoothScrolling);
++  }
++  if (!command_line->HasSwitch(gfx::switches::kForcePrefersReducedMotion) &&
++      !command_line->HasSwitch(gfx::switches::kForcePrefersNoReducedMotion)) {
++    command_line->AppendSwitch(gfx::switches::kForcePrefersReducedMotion);
++  }
++}
++
++}  // namespace
++
+ void ChromeFeatureListCreator::CreateFeatureList() {
+   CreatePrefService();
+   ConvertFlagsToSwitches();
++  ApplyToxiDefaultSwitches(base::CommandLine::ForCurrentProcess());
+   CreateMetricsServices();
+   SetupInitialPrefs();
+   SetUpFieldTrials();
+diff --git a/chrome/browser/toxi_flag_choices.h b/chrome/browser/toxi_flag_choices.h
+new file mode 100644
+index 0000000..4532b3a
+--- /dev/null
++++ b/chrome/browser/toxi_flag_choices.h
+@@ -0,0 +1,11 @@
++#ifndef CHROME_BROWSER_TOXI_FLAG_CHOICES_H_
++#define CHROME_BROWSER_TOXI_FLAG_CHOICES_H_
++const FeatureEntry::Choice kToxiRendererProcessLimit[] = {
++    {flags_ui::kGenericExperimentChoiceDefault, "", ""},
++    {"2", "renderer-process-limit", "2"},
++    {"3", "renderer-process-limit", "3"},
++    {"4", "renderer-process-limit", "4"},
++    {"6", "renderer-process-limit", "6"},
++    {"8", "renderer-process-limit", "8"},
++};
++#endif  // CHROME_BROWSER_TOXI_FLAG_CHOICES_H_
+diff --git a/chrome/browser/toxi_flag_entries.h b/chrome/browser/toxi_flag_entries.h
+new file mode 100644
+index 0000000..316938c
+--- /dev/null
++++ b/chrome/browser/toxi_flag_entries.h
+@@ -0,0 +1,15 @@
++#ifndef CHROME_BROWSER_TOXI_FLAG_ENTRIES_H_
++#define CHROME_BROWSER_TOXI_FLAG_ENTRIES_H_
++    {"toxi-renderer-process-limit",
++     "Renderer process limit",
++     "Caps the number of renderer processes. Mostly effective together with site isolation disabled. Requires relaunch.",
++     kOsAll, MULTI_VALUE_TYPE(kToxiRendererProcessLimit)},
++    {"toxi-network-service-in-process",
++     "Run network service in the browser process",
++     "Saves one process and some memory. Removes the network service sandbox and crash isolation. Not recommended.",
++     kOsAll, FEATURE_VALUE_TYPE(::features::kNetworkServiceInProcess)},
++    {"toxi-in-process-gpu",
++     "Run GPU process inside the browser process",
++     "Saves one process and some memory. Removes the GPU sandbox and ties GPU crashes to the browser. Not recommended.",
++     kOsAll, SINGLE_VALUE_TYPE("in-process-gpu")},
++#endif  // CHROME_BROWSER_TOXI_FLAG_ENTRIES_H_
