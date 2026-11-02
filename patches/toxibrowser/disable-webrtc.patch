@@ -1,0 +1,249 @@
+diff --git a/third_party/blink/renderer/modules/peerconnection/rtc_data_channel_event.idl b/third_party/blink/renderer/modules/peerconnection/rtc_data_channel_event.idl
+index 4851e33..540cf59 100644
+--- a/third_party/blink/renderer/modules/peerconnection/rtc_data_channel_event.idl
++++ b/third_party/blink/renderer/modules/peerconnection/rtc_data_channel_event.idl
+@@ -26,7 +26,8 @@
+ // https://w3c.github.io/webrtc-pc/#rtcdatachannelevent
+ 
+ [
+-    Exposed=Window
++    Exposed=Window,
++    RuntimeEnabled=ToxiWebRTC
+ ] interface RTCDataChannelEvent : Event {
+     constructor(DOMString type, RTCDataChannelEventInit eventInitDict);
+     readonly attribute RTCDataChannel channel;
+diff --git a/third_party/blink/renderer/modules/peerconnection/rtc_dtls_transport.idl b/third_party/blink/renderer/modules/peerconnection/rtc_dtls_transport.idl
+index 5dec6f5..b3f26f4 100644
+--- a/third_party/blink/renderer/modules/peerconnection/rtc_dtls_transport.idl
++++ b/third_party/blink/renderer/modules/peerconnection/rtc_dtls_transport.idl
+@@ -13,7 +13,8 @@ enum RTCDtlsTransportState {
+ };
+ 
+ [
+-    Exposed=Window
++    Exposed=Window,
++    RuntimeEnabled=ToxiWebRTC
+ ] interface RTCDtlsTransport : EventTarget {
+     readonly attribute RTCIceTransport iceTransport;
+     readonly attribute RTCDtlsTransportState state;
+diff --git a/third_party/blink/renderer/modules/peerconnection/rtc_dtmf_sender.idl b/third_party/blink/renderer/modules/peerconnection/rtc_dtmf_sender.idl
+index b6f8e86..c33b433 100644
+--- a/third_party/blink/renderer/modules/peerconnection/rtc_dtmf_sender.idl
++++ b/third_party/blink/renderer/modules/peerconnection/rtc_dtmf_sender.idl
+@@ -25,7 +25,7 @@
+ 
+ // http://w3c.github.io/webrtc-pc/#rtcdtmfsender
+ 
+-[Exposed=Window]
++[Exposed=Window, RuntimeEnabled=ToxiWebRTC]
+ interface RTCDTMFSender : EventTarget {
+     [RaisesException] void insertDTMF(DOMString tones, optional long duration, optional long interToneGap);
+     attribute EventHandler ontonechange;
+diff --git a/third_party/blink/renderer/modules/peerconnection/rtc_dtmf_tone_change_event.idl b/third_party/blink/renderer/modules/peerconnection/rtc_dtmf_tone_change_event.idl
+index 7b9956b..1f6dc86 100644
+--- a/third_party/blink/renderer/modules/peerconnection/rtc_dtmf_tone_change_event.idl
++++ b/third_party/blink/renderer/modules/peerconnection/rtc_dtmf_tone_change_event.idl
+@@ -26,7 +26,8 @@
+ // https://w3c.github.io/webrtc-pc/#rtcdtmftonechangeevent
+ 
+ [
+-    Exposed=Window
++    Exposed=Window,
++    RuntimeEnabled=ToxiWebRTC
+ ] interface RTCDTMFToneChangeEvent : Event {
+     constructor(DOMString type, optional RTCDTMFToneChangeEventInit eventInitDict = {});
+     readonly attribute DOMString tone;
+diff --git a/third_party/blink/renderer/modules/peerconnection/rtc_error_event.idl b/third_party/blink/renderer/modules/peerconnection/rtc_error_event.idl
+index d4bfd7d..b63448b 100644
+--- a/third_party/blink/renderer/modules/peerconnection/rtc_error_event.idl
++++ b/third_party/blink/renderer/modules/peerconnection/rtc_error_event.idl
+@@ -4,7 +4,8 @@
+ 
+ // https://w3c.github.io/webrtc-pc/#dom-rtcerrorevent
+ [
+-    Exposed=Window
++    Exposed=Window,
++    RuntimeEnabled=ToxiWebRTC
+ ] interface RTCErrorEvent : Event {
+     constructor(DOMString type, RTCErrorEventInit eventInitDict);
+     readonly attribute RTCError error;
+diff --git a/third_party/blink/renderer/modules/peerconnection/rtc_ice_candidate.idl b/third_party/blink/renderer/modules/peerconnection/rtc_ice_candidate.idl
+index bc96f2b..ece0eba 100644
+--- a/third_party/blink/renderer/modules/peerconnection/rtc_ice_candidate.idl
++++ b/third_party/blink/renderer/modules/peerconnection/rtc_ice_candidate.idl
+@@ -57,7 +57,8 @@ enum RTCIceTcpCandidateType {
+ 
+ // https://w3c.github.io/webrtc-pc/#rtcicecandidate-interface
+ [
+-    Exposed=Window
++    Exposed=Window,
++    RuntimeEnabled=ToxiWebRTC
+ ] interface RTCIceCandidate {
+     [CallWith=ExecutionContext, RaisesException] constructor(optional RTCIceCandidateInit candidateInitDict = {});
+     [MeasureAs=RTCIceCandidateCandidate] readonly attribute DOMString candidate;
+diff --git a/third_party/blink/renderer/modules/peerconnection/rtc_ice_transport.idl b/third_party/blink/renderer/modules/peerconnection/rtc_ice_transport.idl
+index 662ca7c..ac36304 100644
+--- a/third_party/blink/renderer/modules/peerconnection/rtc_ice_transport.idl
++++ b/third_party/blink/renderer/modules/peerconnection/rtc_ice_transport.idl
+@@ -29,7 +29,8 @@ enum RTCIceGatheringState {
+ // https://w3c.github.io/webrtc-pc/#rtcicetransport
+ [
+    ActiveScriptWrappable,
+-   Exposed=Window
++   Exposed=Window,
++   RuntimeEnabled=ToxiWebRTC
+ ] interface RTCIceTransport : EventTarget {
+     // TODO(github.com/w3c/webrtc-ice/issues/4): role is non-null in the
+     // WebRTC-PC specification.
+diff --git a/third_party/blink/renderer/modules/peerconnection/rtc_peer_connection.idl b/third_party/blink/renderer/modules/peerconnection/rtc_peer_connection.idl
+index de6b1ed..c36fcad 100644
+--- a/third_party/blink/renderer/modules/peerconnection/rtc_peer_connection.idl
++++ b/third_party/blink/renderer/modules/peerconnection/rtc_peer_connection.idl
+@@ -63,8 +63,10 @@ enum RTCPeerConnectionState {
+ [
+     ActiveScriptWrappable,
+     Exposed=Window,
++    RuntimeEnabled=ToxiWebRTC,
+     LegacyWindowAlias=webkitRTCPeerConnection,
+-    LegacyWindowAlias_Measure
++    LegacyWindowAlias_Measure,
++    LegacyWindowAlias_RuntimeEnabled=ToxiWebRTC
+ ] interface RTCPeerConnection : EventTarget {
+     [CallWith=ExecutionContext, RaisesException] constructor(optional RTCConfiguration configuration = {});
+     [CallWith=ScriptState, RaisesException] Promise<RTCSessionDescriptionInit> createOffer(optional RTCOfferOptions options = {});
+diff --git a/third_party/blink/renderer/modules/peerconnection/rtc_peer_connection_ice_error_event.idl b/third_party/blink/renderer/modules/peerconnection/rtc_peer_connection_ice_error_event.idl
+index 66b8387..bd779c4 100644
+--- a/third_party/blink/renderer/modules/peerconnection/rtc_peer_connection_ice_error_event.idl
++++ b/third_party/blink/renderer/modules/peerconnection/rtc_peer_connection_ice_error_event.idl
+@@ -5,7 +5,8 @@
+ //https://w3c.github.io/webrtc-pc/#rtcpeerconnectioniceerrorevent
+ 
+ [
+-    Exposed=Window
++    Exposed=Window,
++    RuntimeEnabled=ToxiWebRTC
+ ] interface RTCPeerConnectionIceErrorEvent : Event {
+   constructor (DOMString type, RTCPeerConnectionIceErrorEventInit eventInitDict);
+   readonly attribute DOMString? address;
+diff --git a/third_party/blink/renderer/modules/peerconnection/rtc_peer_connection_ice_event.idl b/third_party/blink/renderer/modules/peerconnection/rtc_peer_connection_ice_event.idl
+index 164cbfd..adf9d2d 100644
+--- a/third_party/blink/renderer/modules/peerconnection/rtc_peer_connection_ice_event.idl
++++ b/third_party/blink/renderer/modules/peerconnection/rtc_peer_connection_ice_event.idl
+@@ -24,7 +24,8 @@
+  */
+ 
+ [
+-    Exposed=Window
++    Exposed=Window,
++    RuntimeEnabled=ToxiWebRTC
+ ] interface RTCPeerConnectionIceEvent : Event {
+     constructor(DOMString type, optional RTCPeerConnectionIceEventInit eventInitDict = {});
+     readonly attribute RTCIceCandidate? candidate;
+diff --git a/third_party/blink/renderer/modules/peerconnection/rtc_rtp_receiver.idl b/third_party/blink/renderer/modules/peerconnection/rtc_rtp_receiver.idl
+index 3003e36..4a8c8a0 100644
+--- a/third_party/blink/renderer/modules/peerconnection/rtc_rtp_receiver.idl
++++ b/third_party/blink/renderer/modules/peerconnection/rtc_rtp_receiver.idl
+@@ -3,7 +3,7 @@
+ // found in the LICENSE file.
+ 
+ // https://w3c.github.io/webrtc-pc/#rtcrtpreceiver-interface
+-[Exposed=Window]
++[Exposed=Window, RuntimeEnabled=ToxiWebRTC]
+ interface RTCRtpReceiver {
+     readonly attribute MediaStreamTrack track;
+     readonly attribute RTCDtlsTransport? transport;
+diff --git a/third_party/blink/renderer/modules/peerconnection/rtc_rtp_sender.idl b/third_party/blink/renderer/modules/peerconnection/rtc_rtp_sender.idl
+index 946baa2..342d96e 100644
+--- a/third_party/blink/renderer/modules/peerconnection/rtc_rtp_sender.idl
++++ b/third_party/blink/renderer/modules/peerconnection/rtc_rtp_sender.idl
+@@ -3,7 +3,7 @@
+ // found in the LICENSE file.
+ 
+ // https://w3c.github.io/webrtc-pc/#rtcrtpsender-interface
+-[Exposed=Window]
++[Exposed=Window, RuntimeEnabled=ToxiWebRTC]
+ interface RTCRtpSender {
+     readonly attribute MediaStreamTrack? track;
+     readonly attribute RTCDtlsTransport? transport;
+diff --git a/third_party/blink/renderer/modules/peerconnection/rtc_rtp_transceiver.idl b/third_party/blink/renderer/modules/peerconnection/rtc_rtp_transceiver.idl
+index 6ab3d28..6acd1e1 100644
+--- a/third_party/blink/renderer/modules/peerconnection/rtc_rtp_transceiver.idl
++++ b/third_party/blink/renderer/modules/peerconnection/rtc_rtp_transceiver.idl
+@@ -12,7 +12,7 @@ enum RTCRtpTransceiverDirection {
+ };
+ 
+ // https://w3c.github.io/webrtc-pc/#dom-rtcrtptransceiver
+-[Exposed=Window]
++[Exposed=Window, RuntimeEnabled=ToxiWebRTC]
+ interface RTCRtpTransceiver {
+     readonly attribute DOMString? mid;
+     [SameObject] readonly attribute RTCRtpSender sender;
+diff --git a/third_party/blink/renderer/modules/peerconnection/rtc_sctp_transport.idl b/third_party/blink/renderer/modules/peerconnection/rtc_sctp_transport.idl
+index 05e6c57..7671900 100644
+--- a/third_party/blink/renderer/modules/peerconnection/rtc_sctp_transport.idl
++++ b/third_party/blink/renderer/modules/peerconnection/rtc_sctp_transport.idl
+@@ -12,7 +12,8 @@ enum RTCSctpTransportState {
+ // http://w3c.github.io/webrtc-pc/#rtcdtlstransport-interface
+ 
+ [
+-    Exposed=Window
++    Exposed=Window,
++    RuntimeEnabled=ToxiWebRTC
+ ] interface RTCSctpTransport : EventTarget {
+     readonly        attribute RTCDtlsTransport transport;
+     readonly        attribute RTCSctpTransportState state;
+diff --git a/third_party/blink/renderer/modules/peerconnection/rtc_session_description.idl b/third_party/blink/renderer/modules/peerconnection/rtc_session_description.idl
+index 2a5b2d4..d7fab54 100644
+--- a/third_party/blink/renderer/modules/peerconnection/rtc_session_description.idl
++++ b/third_party/blink/renderer/modules/peerconnection/rtc_session_description.idl
+@@ -38,7 +38,8 @@ enum RTCSdpType {
+ };
+ 
+ [
+-    Exposed=Window
++    Exposed=Window,
++    RuntimeEnabled=ToxiWebRTC
+ ] interface RTCSessionDescription {
+     [CallWith=ExecutionContext] constructor(optional RTCSessionDescriptionInit descriptionInitDict = {});
+     // TODO(foolip): |type| and |sdp| should be readonly and not nullable.
+diff --git a/third_party/blink/renderer/modules/peerconnection/rtc_stats_report.idl b/third_party/blink/renderer/modules/peerconnection/rtc_stats_report.idl
+index e55ab32..c0de99c 100644
+--- a/third_party/blink/renderer/modules/peerconnection/rtc_stats_report.idl
++++ b/third_party/blink/renderer/modules/peerconnection/rtc_stats_report.idl
+@@ -3,7 +3,7 @@
+ // found in the LICENSE file.
+ 
+ // https://w3c.github.io/webrtc-pc/#rtcstatsreport-object
+-[Exposed=Window]
++[Exposed=Window, RuntimeEnabled=ToxiWebRTC]
+ interface RTCStatsReport {
+   readonly maplike<DOMString, object>;
+ };
+diff --git a/third_party/blink/renderer/modules/peerconnection/rtc_track_event.idl b/third_party/blink/renderer/modules/peerconnection/rtc_track_event.idl
+index 2187f1d..54a236c 100644
+--- a/third_party/blink/renderer/modules/peerconnection/rtc_track_event.idl
++++ b/third_party/blink/renderer/modules/peerconnection/rtc_track_event.idl
+@@ -4,7 +4,8 @@
+ 
+ // https://w3c.github.io/webrtc-pc/#rtctrackevent
+ [
+-    Exposed=Window
++    Exposed=Window,
++    RuntimeEnabled=ToxiWebRTC
+ ] interface RTCTrackEvent : Event {
+     constructor(DOMString type, RTCTrackEventInit eventInitDict);
+     readonly attribute RTCRtpReceiver           receiver;
+diff --git a/third_party/blink/renderer/platform/runtime_enabled_features.json5 b/third_party/blink/renderer/platform/runtime_enabled_features.json5
+index fa8e2fc..7c95d14 100644
+--- a/third_party/blink/renderer/platform/runtime_enabled_features.json5
++++ b/third_party/blink/renderer/platform/runtime_enabled_features.json5
+@@ -6595,6 +6595,9 @@
+       name: "TouchTextEditingRedesign",
+       base_feature: "none",
+     },
++    {
++      name: "ToxiWebRTC",
++    },
+     {
+       name: "TrackAnimatedSources",
+       status: "test",
